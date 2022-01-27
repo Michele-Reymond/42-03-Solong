@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solong.c                                           :+:      :+:    :+:   */
+/*   solong.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/01/18 16:34:06 by mreymond         ###   ########.fr       */
+/*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
+/*   Updated: 2022/01/27 15:29:40 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "solong.h"
+#ifndef _SOLONG_H
+# define _SOLONG_H
 
-int	main(void)
-{
-	void	*mlx;
+#include "mlx/mlx.h"
 
-	mlx = mlx_init();
-}
+#endif

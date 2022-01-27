@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solong.h                                           :+:      :+:    :+:   */
+/*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
-/*   Updated: 2022/01/18 16:33:56 by mreymond         ###   ########.fr       */
+/*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
+/*   Updated: 2022/01/27 16:16:07 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _SOLONG_H
-# define _SOLONG_H
+#include "mlx/mlx.h"
 
-#include "./mlx/mlx.h"
+int	main(void)
+{
+	void	*mlx;
+	void	*mlx_win;
 
-#endif
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 500, 500, "Hello world!");
+	mlx_loop(mlx);
+}
