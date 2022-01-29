@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/01/29 17:40:56 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/01/29 18:06:19 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,45 @@ win_data window_construction(void *mlx, char *path)
 	return (window);
 }
 
+img_data define_img(void *mlx, win_data window, int x, int y, char lettre)
+{
+	img_data img;
+
+	if (lettre == '1' )
+		img = render_img(mlx, window.w, x, y, "./img/sable.xpm");
+	else if (lettre == '0' )
+		img = render_img(mlx, window.w, x, y, "./img/herbe.xpm");
+	else if (lettre == 'C' )
+		img = render_img(mlx, window.w, x, y, "./img/pirate.xpm");
+	else
+	{
+		img.img = NULL;
+		img.width = 0;
+		img.height = 0;
+	}
+	return (img);
+}
+
 void render_map(void *mlx, win_data	window)
 {
 	char	*line = NULL;
-	int			gnl;
+	int		gnl;
 	int		x;
 	int		y;
-	int 	i;
 	img_data img;
 
 	x = 0;
 	y = 0;
-	i = 0;
 	gnl = open("map/map.ber", O_RDONLY);
 	line = get_next_line(gnl);
 	while (line != NULL)
 	{
-		while (line[i] != '\0')
+		while (*line != '\0')
 		{
-			if (line[i] == '1' )
-				img = render_img(mlx, window.w, x, y, "./img/sable.xpm");
-			else if (line[i] == '0' )
-				img = render_img(mlx, window.w, x, y, "./img/herbe.xpm");
-			else if (line[i] == 'C' )
-				img = render_img(mlx, window.w, x, y, "./img/pirate.xpm");
-			i++;
+			img = define_img(mlx, window, x, y, *line);
+			line++;
 			x += img.width;
 		} 
-		i = 0;
 		x = 0;
 		y += IMG_HEIGHT;
 		line = get_next_line(gnl);
