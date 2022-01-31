@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/01/29 18:06:19 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/01/31 17:37:47 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ typedef struct window
 	int		width;
 	int		height;
 }	win_data;
+
+typedef struct	s_vars {
+	void		*mlx;
+	win_data	window;
+}	t_vars;
 
 img_data  render_img(void *mlx, void *window, int x, int y, char *path)
 {
@@ -65,6 +70,8 @@ img_data define_img(void *mlx, win_data window, int x, int y, char lettre)
 	else if (lettre == '0' )
 		img = render_img(mlx, window.w, x, y, "./img/herbe.xpm");
 	else if (lettre == 'C' )
+		img = render_img(mlx, window.w, x, y, "./img/coffre.xpm");
+	else if (lettre == 'P' )
 		img = render_img(mlx, window.w, x, y, "./img/pirate.xpm");
 	else
 	{
@@ -102,13 +109,49 @@ void render_map(void *mlx, win_data	window)
 	free(line);
 }
 
+void go_to_left(t_vars *vars)
+{
+	printf("left\n");
+	render_img(vars->mlx, vars->window.w, 0, 0, "./img/pirate.xpm");
+}
+
+void go_to_right()
+{
+	printf("right\n");
+}
+
+void go_up()
+{
+	printf("up\n");
+}
+
+void go_down()
+{
+	printf("down\n");
+}
+
+int	key_hook(int keycode, t_vars *vars)
+{
+	if (keycode == 53)
+		mlx_destroy_window(vars->mlx, vars->window.w);
+	if (keycode == 123)
+		go_to_left(vars);
+	if (keycode == 124)
+		go_to_right();
+	if (keycode == 125)
+		go_down();
+	if (keycode == 126)
+		go_up();
+	return (0);
+}
+
 int	main(void)
 {
-	void	*mlx;
-	win_data	window;
+	t_vars vars;
 
-	mlx = mlx_init();
-	window = window_construction(mlx, "map/map.ber");
-	render_map(mlx, window);
-	mlx_loop(mlx);
+	vars.mlx = mlx_init();
+	vars.window = window_construction(vars.mlx, "map/map.ber");
+	render_map(vars.mlx, vars.window);
+	mlx_key_hook(vars.window.w, key_hook, &vars);
+	mlx_loop(vars.mlx);
 }
