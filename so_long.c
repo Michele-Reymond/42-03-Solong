@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/01/31 17:37:47 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/01/31 19:54:44 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ typedef struct image
 	int		height;
 }	img_data;
 
+typedef struct player
+{
+	int		x;
+	int		y;
+}	p_data;
+
 typedef struct window
 {
 	void 	*w;
@@ -27,10 +33,12 @@ typedef struct window
 	int		height;
 }	win_data;
 
-typedef struct	s_vars {
+typedef struct	s_param {
 	void		*mlx;
+	char 		*map;
+	p_data		player;
 	win_data	window;
-}	t_vars;
+}	t_param;
 
 img_data  render_img(void *mlx, void *window, int x, int y, char *path)
 {
@@ -109,49 +117,70 @@ void render_map(void *mlx, win_data	window)
 	free(line);
 }
 
-void go_to_left(t_vars *vars)
+void go_to_left(t_param *param)
 {
-	printf("left\n");
-	render_img(vars->mlx, vars->window.w, 0, 0, "./img/pirate.xpm");
+	if (param->player.x > IMG_WIDTH)
+	{
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
+		param->player.x = param->player.x - IMG_WIDTH;
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
+	}
 }
 
-void go_to_right()
+void go_to_right(t_param *param)
 {
-	printf("right\n");
+	if (param->player.x < param->window.width - (IMG_WIDTH * 2))
+	{
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
+		param->player.x = param->player.x + IMG_WIDTH;
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
+	}
 }
 
-void go_up()
+void go_up(t_param *param)
 {
-	printf("up\n");
+	if (param->player.y > IMG_HEIGHT)
+	{
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
+		param->player.y = param->player.y - IMG_HEIGHT;
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
+	}
 }
 
-void go_down()
+void go_down(t_param *param)
 {
-	printf("down\n");
+	if (param->player.y < param->window.height - (IMG_HEIGHT * 2))
+	{
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
+		param->player.y = param->player.y + IMG_HEIGHT;
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
+	}
 }
 
-int	key_hook(int keycode, t_vars *vars)
+int	key_hook(int keycode, t_param *param)
 {
 	if (keycode == 53)
-		mlx_destroy_window(vars->mlx, vars->window.w);
+		mlx_destroy_window(param->mlx, param->window.w);
 	if (keycode == 123)
-		go_to_left(vars);
+		go_to_left(param);
 	if (keycode == 124)
-		go_to_right();
+		go_to_right(param);
 	if (keycode == 125)
-		go_down();
+		go_down(param);
 	if (keycode == 126)
-		go_up();
+		go_up(param);
 	return (0);
 }
 
 int	main(void)
 {
-	t_vars vars;
+	t_param param;
 
-	vars.mlx = mlx_init();
-	vars.window = window_construction(vars.mlx, "map/map.ber");
-	render_map(vars.mlx, vars.window);
-	mlx_key_hook(vars.window.w, key_hook, &vars);
-	mlx_loop(vars.mlx);
+	param.mlx = mlx_init();
+	param.window = window_construction(param.mlx, "map/map.ber");
+	render_map(param.mlx, param.window);
+	param.player.x = IMG_WIDTH;
+	param.player.y = IMG_HEIGHT;
+	mlx_key_hook(param.window.w, key_hook, &param);
+	mlx_loop(param.mlx);
 }
