@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/01/31 19:54:44 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/01 00:43:06 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct window
 typedef struct	s_param {
 	void		*mlx;
 	char 		*map;
+	int			collect;
 	p_data		player;
 	win_data	window;
 }	t_param;
@@ -90,20 +91,24 @@ img_data define_img(void *mlx, win_data window, int x, int y, char lettre)
 	return (img);
 }
 
-void render_map(void *mlx, win_data	window)
+char *render_map(void *mlx, win_data	window)
 {
 	char	*line = NULL;
 	int		gnl;
 	int		x;
 	int		y;
 	img_data img;
+	char *join;
 
 	x = 0;
 	y = 0;
+	join = (char *)malloc(1);
+	join[0] = '\0';
 	gnl = open("map/map.ber", O_RDONLY);
 	line = get_next_line(gnl);
 	while (line != NULL)
 	{
+		join = ft_strjoin(join, line);
 		while (*line != '\0')
 		{
 			img = define_img(mlx, window, x, y, *line);
@@ -115,22 +120,37 @@ void render_map(void *mlx, win_data	window)
 		line = get_next_line(gnl);
 	}
 	free(line);
+	return (join);
 }
 
 void go_to_left(t_param *param)
 {
-	if (param->player.x > IMG_WIDTH)
+	char *player_pos;
+
+	player_pos = ft_strchr(param->map, 'P');
+	if (*(player_pos - 1) != '1')
 	{
+		if (*(player_pos - 1) == 'C')
+			param->collect = param->collect + 1; 
+		*player_pos = '0';
+		*(player_pos - 1) = 'P';
 		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
 		param->player.x = param->player.x - IMG_WIDTH;
-		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
+		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate-left.xpm");
 	}
 }
 
 void go_to_right(t_param *param)
 {
-	if (param->player.x < param->window.width - (IMG_WIDTH * 2))
+	char *player_pos;
+
+	player_pos = ft_strchr(param->map, 'P');
+	if (*(player_pos + 1) != '1')
 	{
+		if (*(player_pos + 1) == 'C')
+			param->collect = param->collect + 1; 
+		*player_pos = '0';
+		*(player_pos + 1) = 'P';
 		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
 		param->player.x = param->player.x + IMG_WIDTH;
 		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
@@ -139,8 +159,16 @@ void go_to_right(t_param *param)
 
 void go_up(t_param *param)
 {
-	if (param->player.y > IMG_HEIGHT)
+	char *player_pos;
+
+	player_pos = ft_strchr(param->map, 'P');
+	if (*(player_pos - (param->window.width / IMG_WIDTH + 1)) != '1')
 	{
+		if (*(player_pos - (param->window.width / IMG_WIDTH + 1)) == 'C')
+			param->collect = param->collect + 1; 
+		*player_pos = '0';
+		player_pos = player_pos - (param->window.width / IMG_WIDTH + 1);
+		*player_pos = 'P';
 		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
 		param->player.y = param->player.y - IMG_HEIGHT;
 		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
@@ -149,8 +177,16 @@ void go_up(t_param *param)
 
 void go_down(t_param *param)
 {
-	if (param->player.y < param->window.height - (IMG_HEIGHT * 2))
+	char *player_pos;
+
+	player_pos = ft_strchr(param->map, 'P');
+	if (*(player_pos + (param->window.width / IMG_WIDTH + 1)) != '1')
 	{
+		if (*(player_pos + (param->window.width / IMG_WIDTH + 1)) == 'C')
+			param->collect = param->collect + 1; 
+		*player_pos = '0';
+		player_pos = player_pos + (param->window.width / IMG_WIDTH + 1);
+		*player_pos = 'P';
 		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/herbe.xpm");
 		param->player.y = param->player.y + IMG_HEIGHT;
 		render_img(param->mlx, param->window.w, param->player.x, param->player.y, "./img/pirate.xpm");
@@ -178,9 +214,12 @@ int	main(void)
 
 	param.mlx = mlx_init();
 	param.window = window_construction(param.mlx, "map/map.ber");
-	render_map(param.mlx, param.window);
+	param.map = render_map(param.mlx, param.window);
 	param.player.x = IMG_WIDTH;
 	param.player.y = IMG_HEIGHT;
+	param.collect = 0;
 	mlx_key_hook(param.window.w, key_hook, &param);
 	mlx_loop(param.mlx);
+	free(param.map);
+	return (0);
 }
