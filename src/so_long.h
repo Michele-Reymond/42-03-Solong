@@ -6,20 +6,18 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/03 19:45:05 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/03 23:23:17 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _SOLONG_H
-# define _SOLONG_H
+#ifndef SO_LONG_H
+# define SO_LONG_H
 
-# include "mlx/mlx.h"
-# include "src/gnl/get_next_line.c"
-# include "src/printf/ft_printf.c"
-# include "src/printf/ft_printf_utils.c"
-# include "src/printf/ft_printf_unsigned.c"
-# include "src/printf/ft_printf_hexa.c"
-# include "src/libft/ft_itoa.c"
+# include "../mlx/mlx.h"
+# include "./libft/libft.h"
+# include "./get_next_line.h"
+# include <stdio.h>
+# include <stdlib.h>
 
 #define MAP_PATH "map/map.ber"
 
@@ -41,7 +39,6 @@
 #define IMG_EXIT "./img/panier.xpm"
 #define IMG_COLLECT "./img/mouse.xpm"
 #define IMG_WALL "./img/mur.xpm"
-
 
 #define IMG_W 64
 #define IMG_H 64
@@ -84,5 +81,24 @@ typedef struct	s_param {
 	p_data		player;
 	win_data	w;
 }	t_param;
+
+int closeg(int keycode, t_param p);
+img_data  render_img(void *mlx, void *window, int x, int y, char *path);
+int inside_lines(unsigned long i, char *line, unsigned long w);
+int map_wall_error(char *line, int width);
+int item_error(char *line);
+void map_errors(char *line, int w_width, int w_height);
+win_data window_construction(void *mlx, char *path, t_param *p);
+img_data define_img(void *mlx, win_data window, int x, int y, char lettre);
+void render_text_box(void *mlx, win_data window);
+void render_map(void *mlx, win_data	window);
+int go_to_left(t_param *p);
+int go_to_right(t_param *p);
+int go_up(t_param *p);
+int go_down(t_param *p);
+void display_steps(int p_steps, void *mlx, win_data window);
+int	key_hook(int keycode, t_param *p);
+int str_find(char *str, char lettre);
+void set_player_position(t_param *p);
 
 #endif

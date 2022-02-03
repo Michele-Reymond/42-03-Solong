@@ -56,5 +56,4 @@ dkms.conf
 .DS_Store
 .vscode/
 mlx/
-src/
 so_long

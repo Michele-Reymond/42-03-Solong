@@ -1,28 +1,53 @@
-SRCS = so_long.c
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/02/03 22:30:27 by mreymond          #+#    #+#              #
+#    Updated: 2022/02/03 23:26:29 by mreymond         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SRCS = src/so_long.c \
+	src/so_long_utils.c \
+	src/so_long_render.c \
+	src/so_long_errors.c \
+	src/so_long_directions.c \
+	src/get_next_line.c \
+	src/get_next_line_utils.c
 CFLAGS = -Wall -Werror -Wextra -Imlx
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 CC = gcc
 NAME = so_long
 OBJS = ${SRCS:.c=.o}
+MLX_PATH = ./mlx/
+LBFT_PATH = ./src/libft/
 AR = ar rc
 RM = rm -f
 
 all: ${NAME}
 
 $(NAME):	$(OBJS)
-			$(CC) $(SRCS) $(CFLAGS) $(MLXFLAGS) -o $(NAME)
+		@$(MAKE) -C $(LBFT_PATH)
+		@$(MAKE) -C $(MLX_PATH)
+		$(CC) $(OBJS) $(CFLAGS) $(MLXFLAGS) -o $(NAME)
 
-%o:			%.c
-			$(CC) $(CFLAGS) -Imlx -c $< -o $@
+%o:	%.c
+	$(CC) $(CFLAGS) -Imlx -c $< -o $@
 
-run:		all
-			./$(NAME)
+run: all
+	./$(NAME)
 
 clean: 
 	${RM} ${OBJS}
+	@$(MAKE) -C $(LBFT_PATH) clean
+	@$(MAKE) -C $(MLX_PATH) clean
 
 fclean: clean
 	${RM} ${NAME}
+	@$(MAKE) -C $(LBFT_PATH) fclean
 
 re: fclean all
 
