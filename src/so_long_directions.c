@@ -6,20 +6,30 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:07:33 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/03 22:40:38 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:23:55 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int go_to_left(t_param *p)
+void print_move(t_param *p, char *cat, int direction, int steps)
+{
+	render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_GROUND);
+	if (steps == 1 || steps == -1)
+		p->player.x = p->player.x + direction;
+	else 
+		p->player.y = p->player.y + direction;
+	render_img(p->mlx, p->w.w, p->player.x, p->player.y, cat);
+}
+
+int move(t_param *p, int steps, char *cat, int direction)
 {
 	char *p_pos;
 	char lettre_left;
 
 	p_pos = ft_strchr(p->map, 'P');
-	lettre_left = *(p_pos - 1);
-	if (lettre_left == 'E' && p->items.c == p->collect)
+	lettre_left = *(p_pos + steps);
+	if (lettre_left == 'E' && p->collectibles == p->collected)
 	{
 		mlx_destroy_window(p->mlx, p->w.w);
 		exit(0);
@@ -27,93 +37,48 @@ int go_to_left(t_param *p)
 	if (lettre_left != '1' && lettre_left != 'E')
 	{
 		if (lettre_left == 'C')
-			p->collect = p->collect + 1; 
+			p->collected = p->collected + 1; 
 		*p_pos = '0';
-		*(p_pos - 1) = 'P';
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_GROUND);
-		p->player.x = p->player.x - IMG_W;
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_CAT_L);
+		*(p_pos + steps) = 'P';
+		print_move(p, cat, direction, steps);
 		return (1);
 	}
 	return (0);
 }
 
-int go_to_right(t_param *p)
-{
-	char *p_pos;
-	char lettre_right;
 
-	p_pos = ft_strchr(p->map, 'P');
-	lettre_right = *(p_pos + 1);
-	if (lettre_right == 'E' && p->items.c == p->collect)
-	{
-		mlx_destroy_window(p->mlx, p->w.w);
-		exit(0);
-	}
-	if (lettre_right != '1' && lettre_right != 'E')
-	{
-		if (lettre_right == 'C')
-			p->collect = p->collect + 1; 
-		*p_pos = '0';
-		*(p_pos + 1) = 'P';
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_GROUND);
-		p->player.x = p->player.x + IMG_W;
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_CAT_R);
-		return (1);
-	}
-	return (0);
+void display_steps(int p_steps, void *mlx, win_data window)
+{
+	char *steps;
+
+	printf("Nombre de pas : %d\n", p_steps);
+	render_text_box(mlx, window);
+	steps = ft_itoa(p_steps);
+	mlx_string_put(mlx, window.w, IMG_W2, IMG_H2, 0x2f09c0, "Nbr de pas:");
+	mlx_string_put(mlx, window.w, (IMG_W2 * 4), IMG_H2, 0x2f09c0, steps);
+	free(steps);
 }
 
-int go_up(t_param *p)
+int	key_hook(int keycode, t_param *p)
 {
-	char *p_pos;
-	char lettre_up;
+	int horizontal_move;
+	int vertical_move;
 
-	p_pos = ft_strchr(p->map, 'P');
-	lettre_up = *(p_pos - (p->w.width / IMG_W + 1));
-	if (lettre_up == 'E' && p->items.c == p->collect)
+	horizontal_move = 1;
+	vertical_move = p->w.width / IMG_W + 1;
+	if (keycode == KEY_ESC)
 	{
 		mlx_destroy_window(p->mlx, p->w.w);
 		exit(0);
 	}
-	if (lettre_up != '1' && lettre_up != 'E')
-	{
-		if (lettre_up == 'C')
-			p->collect = p->collect + 1; 
-		*p_pos = '0';
-		p_pos = p_pos - (p->w.width / IMG_W + 1);
-		*p_pos = 'P';
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_GROUND);
-		p->player.y = p->player.y - IMG_H;
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_CAT_B);
-		return (1);
-	}
-	return (0);
-}
-
-int go_down(t_param *p)
-{
-	char *p_pos;
-	char lettre_down;
-
-	p_pos = ft_strchr(p->map, 'P');
-	lettre_down = *(p_pos + (p->w.width / IMG_W + 1));
-	if (lettre_down == 'E' && p->items.c == p->collect)
-	{
-		mlx_destroy_window(p->mlx, p->w.w);
-		exit(0);
-	}
-	if (lettre_down != '1' && lettre_down != 'E')
-	{
-		if (lettre_down == 'C')
-			p->collect = p->collect + 1; 
-		*p_pos = '0';
-		p_pos = p_pos + (p->w.width / IMG_W + 1);
-		*p_pos = 'P';
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_GROUND);
-		p->player.y = p->player.y + IMG_H;
-		render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_CAT_F);
-		return (1);
-	}
+	else if (keycode == KEY_LEFT || keycode == KEY_A)
+		p->steps = p->steps + move(p, -horizontal_move, IMG_CAT_L, -IMG_H);
+	else if (keycode == KEY_RIGHT || keycode == KEY_D)
+		p->steps = p->steps + move(p, horizontal_move, IMG_CAT_R, IMG_H);
+	else if (keycode == KEY_DOWN || keycode == KEY_S)
+		p->steps = p->steps + move(p, vertical_move, IMG_CAT_F, IMG_H);
+	else if (keycode == KEY_UP || keycode == KEY_W)
+		p->steps = p->steps + move(p, -vertical_move, IMG_CAT_B, -IMG_H);
+	display_steps(p->steps, p->mlx, p->w);
 	return (0);
 }

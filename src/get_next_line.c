@@ -4,36 +4,6 @@
 # define BUFFER_SIZE 1
 #endif
 
-// size_t ft_strlen(char *str)
-// {
-// 	size_t i;
-
-// 	i = 0;
-// 	if (str == NULL)
-// 		return (0);
-// 	while (str[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
-
-// char *ft_strchr(char *str, int lettre)
-// {
-// 	char c;
-
-// 	c = lettre;
-// 	if (str == NULL)
-// 		return (NULL);
-// 	while (*str != '\0')
-// 	{
-// 		if (*str == c)
-// 			return (str);
-// 		str++;
-// 	}
-// 	if (*str == c)
-// 		return (str);
-// 	return (NULL);
-// }
-
 char *ft_strjoin_gnl(char *s1, char *s2)
 {
 	char *joined;
