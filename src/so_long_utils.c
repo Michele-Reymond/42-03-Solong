@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:06:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 15:03:15 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:18:12 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,14 @@ int str_find(char *str, char lettre)
 		str++;
 	}
 	return (i);
+}
+
+void free_mlx(t_param *p)
+{
+	free(p->map);
+	p->map = NULL;
+	free(p->w.w);
+	p->w.w = NULL;
+	free(p->mlx);
+	p->mlx = NULL;
 }

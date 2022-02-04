@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 15:45:18 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:26:29 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct	s_param {
 }	t_param;
 
 int closeg(int keycode, t_param p);
+void free_mlx(t_param *p);
 void check_map_name(char *name);
 int move(t_param *p, int steps, char *cat, int direction);
 void print_move(t_param *p, char *cat, int direction, int steps);

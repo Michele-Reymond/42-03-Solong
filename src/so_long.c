@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 15:28:22 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:19:32 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main()
 	mlx_key_hook(p.w.w, key_hook, &p);
 	mlx_hook(p.w.w, 17, 0L << 0, closeg, &p);
 	mlx_loop(p.mlx);
-	free(p.map);
-	p.map = NULL;
+	free_mlx(&p);
 	return (0);
 }
