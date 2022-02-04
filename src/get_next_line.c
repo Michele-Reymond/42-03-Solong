@@ -1,103 +1,25 @@
 #include "get_next_line.h"
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
-#endif
-
-char *ft_strjoin_gnl(char *s1, char *s2)
+char *read_lines(char *str, int fd, char *buffer)
 {
-	char *joined;
-	int i;
-	int j;
+	int lecture;
 
-	i = 0;
-	j = 0;
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	joined = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (joined == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
+	lecture = 1;
+	while (lecture != 0 && ft_strchr(str, '\n') == NULL)
 	{
-		joined[i] = s1[i];
-		i++;
+		lecture = read(fd, buffer, BUFFER_SIZE);
+		if (lecture == -1)
+		{
+			if (buffer)
+				free(buffer);
+			return (NULL);
+		}
+		buffer[lecture] = '\0';
+		if (!str)
+			str = ft_strdup("");
+		str = ft_strjoin_gnl(str, buffer);
 	}
-	while (s2[j] != '\0')
-	{
-		joined[i] = s2[j];
-		j++;
-		i++;
-	}
-	joined[i] = '\0';
-	if (s1)
-	{
-		free(s1);
-		s1 = NULL;
-	}
-	return (joined);
-}
-
-char *clean_end_of_line(char *str)
-{
-	int i;
-	char *cleaned;
-
-	i = 0;
-	if (str[i] == 0)
-		return (NULL);
-	while (str[i] && str[i] != '\n')
-		i++;
-	cleaned = malloc(i + 2);
-	if (cleaned == NULL)
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
-	{
-		cleaned[i] = str[i];
-		i++;
-	}
-	if (str[i] == '\n')
-	{
-		cleaned[i] = str[i];
-		i++;
-	}
-	cleaned[i] = '\0';
-	return (cleaned);
-}
-
-char *clean_start_of_line(char *str)
-{
-	char *cleaned;
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == 0)
-	{
-		free(str);
-		str = NULL;
-		return (NULL);
-	}
-	cleaned = malloc(ft_strlen(str) - i + 1);
-	if (cleaned == NULL)
-		return (NULL);
-	i++;
-	while (str[i] && str[i] != '\0')
-	{
-		cleaned[j] = str[i];
-		i++;
-		j++;
-	}
-	cleaned[j] = '\0';
-	if (str)
-	{
-		free(str);
-		str = NULL;
-	}
-	return (cleaned);
+	return (str);
 }
 
 char *get_next_line(int fd)
@@ -106,31 +28,14 @@ char *get_next_line(int fd)
 	char *tmp;
 	char *returned_line;
 	static char *line;
-	int lecture;
 
-	lecture = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (buffer == NULL)
 		return (NULL);
 	tmp = line;
-	while (lecture != 0 && ft_strchr(tmp, '\n') == NULL)
-	{
-		lecture = read(fd, buffer, BUFFER_SIZE);
-		if (lecture == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		buffer[lecture] = '\0';
-		if (!tmp)
-		{
-			tmp = malloc(1);
-			tmp[0] = '\0';
-		}
-		tmp = ft_strjoin_gnl(tmp, buffer);
-	}
+	tmp = read_lines(tmp, fd, buffer);
 	if (buffer)
 	{
 		free(buffer);

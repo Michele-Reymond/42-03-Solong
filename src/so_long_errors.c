@@ -6,11 +6,26 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:07:25 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/03 22:40:40 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 15:44:48 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void check_map_name(char *name)
+{
+	char *ext;
+	int point;
+
+	point = ft_strlen(name) - 4;
+	ext = ft_strnstr(name, ".ber", ft_strlen(name));
+	if(ext == NULL || name + point != ext)
+	{
+		printf(TEXT_ERROR);
+		printf(TEXT_ERROR_MAP_NAME);
+		exit(0);
+	}
+}
 
 int inside_lines(unsigned long i, char *line, unsigned long w)
 {
@@ -65,47 +80,47 @@ int item_error(char *line)
 	player = ft_strchr(line, 'P');
 	if (ft_strchr(line, 'C') == NULL)
 	{
-		printf(TEXT_ERROR_COLLECTIBLE);
+		printf("%s%s", TEXT_ERROR, TEXT_ERROR_COLLECTIBLE);
 		return (0);
 	}
 	else if (player == NULL)
 	{
-		printf(TEXT_ERROR_PLAYER);
+		printf("%s%s", TEXT_ERROR, TEXT_ERROR_PLAYER);
 		return (0);
 	}
 	else if (ft_strchr(++player, 'P') != NULL)
 	{
-		printf(TEXT_ERROR_M_PLAYER);
+		printf("%s%s", TEXT_ERROR, TEXT_ERROR_M_PLAYER);
 		return (0);
 	}
 	else if (ft_strchr(line, 'E') == NULL)
 	{
-		printf(TEXT_ERROR_EXIT);
+		printf("%s%s", TEXT_ERROR, TEXT_ERROR_EXIT);
 		return (0);
 	}
 	else
 		return (1);
 }
 
-void map_errors(char *line, int w_width, int w_height)
+void map_errors(char *map, int w_width, int w_height)
 {
 	int width;
 	int height;
 
-	(void)line;
 	width = w_width / IMG_W;
 	height = w_height / IMG_H;
-	if (map_wall_error(line, width) == 0)
+	if (map_wall_error(map, width) == 0)
 	{
-		free(line);
-		printf(TEXT_ERROR_MAP);
+		free(map);
+		map = NULL;
 		printf(TEXT_ERROR);
+		printf(TEXT_ERROR_MAP);
 		exit(0);
 	}
-	if (item_error(line) == 0)
+	if (item_error(map) == 0)
 	{
-		free(line);
-		printf(TEXT_ERROR);
+		free(map);
+		map = NULL;
 		exit(0);
 	}
 }

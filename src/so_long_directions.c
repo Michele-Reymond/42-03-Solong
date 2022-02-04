@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:07:33 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 12:23:55 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 15:29:22 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int move(t_param *p, int steps, char *cat, int direction)
 	lettre_left = *(p_pos + steps);
 	if (lettre_left == 'E' && p->collectibles == p->collected)
 	{
+		free(p->map);
+		p->map = NULL;
 		mlx_destroy_window(p->mlx, p->w.w);
 		exit(0);
 	}
@@ -57,6 +59,7 @@ void display_steps(int p_steps, void *mlx, win_data window)
 	mlx_string_put(mlx, window.w, IMG_W2, IMG_H2, 0x2f09c0, "Nbr de pas:");
 	mlx_string_put(mlx, window.w, (IMG_W2 * 4), IMG_H2, 0x2f09c0, steps);
 	free(steps);
+	steps = NULL;
 }
 
 int	key_hook(int keycode, t_param *p)
@@ -68,6 +71,8 @@ int	key_hook(int keycode, t_param *p)
 	vertical_move = p->w.width / IMG_W + 1;
 	if (keycode == KEY_ESC)
 	{
+		free(p->map);
+		p->map = NULL;
 		mlx_destroy_window(p->mlx, p->w.w);
 		exit(0);
 	}

@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 12:13:35 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 15:28:22 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main()
 	t_param p;
 	
 	p.mlx = mlx_init();
+	check_map_name(MAP_PATH);
 	p.w = window_construction(p.mlx, MAP_PATH, &p);
 	render_map(p.mlx, p.w, p.map);
 	set_player_position(&p);
@@ -27,5 +28,6 @@ int	main()
 	mlx_hook(p.w.w, 17, 0L << 0, closeg, &p);
 	mlx_loop(p.mlx);
 	free(p.map);
+	p.map = NULL;
 	return (0);
 }

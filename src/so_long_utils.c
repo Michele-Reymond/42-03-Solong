@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:06:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 12:22:23 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 15:03:15 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ win_data window_construction(void *mlx, char *path, t_param *p)
 	int			fd;
 	char		*line;
 
-	window.height = 0;
 	p->map = ft_strdup("");
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
@@ -35,6 +34,8 @@ win_data window_construction(void *mlx, char *path, t_param *p)
 		window.height += IMG_H;
 	}
 	free(line);
+	line = NULL;
+	close(fd);
 	map_errors(p->map, window.width, window.height);
 	window.w = mlx_new_window(mlx, window.width, window.height, TEXT_TITRE);
 	return (window);

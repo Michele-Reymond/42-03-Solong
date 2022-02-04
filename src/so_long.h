@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 12:12:37 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 15:45:18 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define TEXT_ERROR_M_PLAYER "Attention, il n'y a plusieurs player sur la carte!\n"
 # define TEXT_ERROR_PLAYER "Attention, il n'y a pas de chat sur la carte!\n"
 # define TEXT_ERROR_COLLECTIBLE "Attention, il n'y a pas de souris sur la carte!\n"
+# define TEXT_ERROR_MAP_NAME "Attention le fichier de la map n'est pas conforme!\n"
 
 # define IMG_GROUND "./img/sol.xpm"
 # define IMG_CAT_F "./img/Cat-front.xpm"
@@ -86,6 +87,7 @@ typedef struct	s_param {
 }	t_param;
 
 int closeg(int keycode, t_param p);
+void check_map_name(char *name);
 int move(t_param *p, int steps, char *cat, int direction);
 void print_move(t_param *p, char *cat, int direction, int steps);
 void  render_img(void *mlx, void *window, int x, int y, char *path);

@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:10:35 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 11:56:56 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:04:27 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ void set_player_position(t_param *p)
 	while (map[i] != 'P')
 		i++;
 	i++;
-	p->player.y = ((i / (p->w.width / IMG_H)) * IMG_H) - IMG_H;
+	p->player.y = IMG_H * ((i * (p->w.height / IMG_H)) / ft_strlen(map));
 }
