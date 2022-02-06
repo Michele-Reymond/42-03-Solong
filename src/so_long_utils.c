@@ -6,17 +6,36 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:06:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 16:18:12 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/06 21:43:53 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+void store_map(int fd, t_param *p, win_data	*window)
+{
+	char		*line;
+	char *tmp;
+
+	line = get_next_line(fd);
+	window->width = (ft_strlen(line) - 1) * IMG_W;
+	while (line != NULL)
+	{
+		tmp = line;
+		p->map = ft_strjoin_gnl(p->map, tmp);
+		line = get_next_line(fd);
+		free(tmp);
+		tmp = NULL;
+		window->height += IMG_H;
+	}
+	free(line);
+	line = NULL;
+}
+
 win_data window_construction(void *mlx, char *path, t_param *p)
 {
 	win_data	window;
 	int			fd;
-	char		*line;
 
 	p->map = ft_strdup("");
 	fd = open(path, O_RDONLY);
@@ -25,16 +44,7 @@ win_data window_construction(void *mlx, char *path, t_param *p)
 		free(p->map);
 		exit(0);
 	}
-	line = get_next_line(fd);
-	window.width = (ft_strlen(line) - 1) * IMG_W;
-	while (line != NULL)
-	{
-		p->map = ft_strjoin(p->map, line);
-		line = get_next_line(fd);
-		window.height += IMG_H;
-	}
-	free(line);
-	line = NULL;
+	store_map(fd, p, &window);
 	close(fd);
 	map_errors(p->map, window.width, window.height);
 	window.w = mlx_new_window(mlx, window.width, window.height, TEXT_TITRE);
