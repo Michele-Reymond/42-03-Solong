@@ -3,22 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 16:19:32 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:28:22 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	main()
+int	main(int argc, char **argv)
 {
-	t_param p;
-	
+	t_param	p;
+	char	*map_path;
+
+	if (argc != 2)
+	{
+		printf(TEXT_ARG_ERROR);
+		return (0);
+	}
+	map_path = argv[1];
 	p.mlx = mlx_init();
-	check_map_name(MAP_PATH);
-	p.w = window_construction(p.mlx, MAP_PATH, &p);
+	check_map_name(map_path, p.mlx);
+	p.w = window_construction(p.mlx, map_path, &p);
 	render_map(p.mlx, p.w, p.map);
 	set_player_position(&p);
 	p.collected = 0;

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   so_long_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:06:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/06 21:43:53 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:35:52 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void store_map(int fd, t_param *p, win_data	*window)
+void	store_map(int fd, t_param *p, t_win_data *window)
 {
-	char		*line;
-	char *tmp;
+	char	*line;
+	char	*tmp;
 
 	line = get_next_line(fd);
 	window->width = (ft_strlen(line) - 1) * IMG_W;
@@ -32,11 +32,12 @@ void store_map(int fd, t_param *p, win_data	*window)
 	line = NULL;
 }
 
-win_data window_construction(void *mlx, char *path, t_param *p)
+t_win_data	window_construction(void *mlx, char *path, t_param *p)
 {
-	win_data	window;
+	t_win_data	window;
 	int			fd;
 
+	printf("%s\n", path);
 	p->map = ft_strdup("");
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
@@ -51,16 +52,16 @@ win_data window_construction(void *mlx, char *path, t_param *p)
 	return (window);
 }
 
-int closeg(int keycode, t_param p)
+int	closeg(int keycode, t_param p)
 {
 	(void)keycode;
 	(void)p;
 	exit(0);
 }
 
-int str_find(char *str, char lettre)
+int	str_find(char *str, char lettre)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str == NULL)
@@ -69,14 +70,14 @@ int str_find(char *str, char lettre)
 	{
 		str = ft_strchr(str, lettre);
 		if (str == NULL)
-			break;
+			break ;
 		i++;
 		str++;
 	}
 	return (i);
 }
 
-void free_mlx(t_param *p)
+void	free_mlx(t_param *p)
 {
 	free(p->map);
 	p->map = NULL;

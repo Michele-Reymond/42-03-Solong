@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/08 16:07:42 by mreymond          #+#    #+#             */
+/*   Updated: 2022/02/08 16:08:37 by mreymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char *ft_strjoin_gnl(char *s1, char *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
-	char *joined;
-	int i;
-	int j;
+	char	*joined;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -21,15 +33,15 @@ char *ft_strjoin_gnl(char *s1, char *s2)
 	while (s2[j] != '\0')
 		joined[i++] = s2[j++];
 	joined[i] = '\0';
-    free(s1);
-    s1 = NULL;
+	free(s1);
+	s1 = NULL;
 	return (joined);
 }
 
-char *clean_end_of_line(char *str)
+char	*clean_end_of_line(char *str)
 {
-	int i;
-	char *cleaned;
+	int		i;
+	char	*cleaned;
 
 	i = 0;
 	if (str[i] == 0)
@@ -54,11 +66,11 @@ char *clean_end_of_line(char *str)
 	return (cleaned);
 }
 
-char *clean_start_of_line(char *str)
+char	*clean_start_of_line(char *str)
 {
-	char *cleaned;
-	int i;
-	int j;
+	char	*cleaned;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -77,7 +89,7 @@ char *clean_start_of_line(char *str)
 	while (str[i] && str[i] != '\0')
 		cleaned[j++] = str[i++];
 	cleaned[j] = '\0';
-    free(str);
-    str = NULL;
+	free(str);
+	str = NULL;
 	return (cleaned);
 }

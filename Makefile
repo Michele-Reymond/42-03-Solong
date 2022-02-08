@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+         #
+#    By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 22:30:27 by mreymond          #+#    #+#              #
-#    Updated: 2022/02/06 21:20:48 by mreymond         ###   ########.fr        #
+#    Updated: 2022/02/08 18:15:27 by mreymond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ $(NAME):	$(OBJS)
 	$(CC) $(CFLAGS) -Imlx -c $< -o $@
 
 run: all
-	./$(NAME)
+	./$(NAME) "map/map.ber"
 
 clean: 
 	${RM} ${OBJS}

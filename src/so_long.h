@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/06 21:43:37 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:16:35 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@
 # define TEXT_TITRE "So long!"
 # define TEXT_START "Manges vite les souris"
 # define TEXT_ERROR "Error\n"
+# define TEXT_ARG_ERROR "Attention, pas d'arguments!\n"
 # define TEXT_ERROR_MAP "Attention, la carte n'est pas conforme!\n"
-# define TEXT_ERROR_EXIT "Attention, il n'y a pas de panier sur la carte!\n"
-# define TEXT_ERROR_M_PLAYER "Attention, il n'y a plusieurs player sur la carte!\n"
-# define TEXT_ERROR_PLAYER "Attention, il n'y a pas de chat sur la carte!\n"
-# define TEXT_ERROR_COLLECTIBLE "Attention, il n'y a pas de souris sur la carte!\n"
-# define TEXT_ERROR_MAP_NAME "Attention le fichier de la map n'est pas conforme!\n"
+# define TEXT_ERROR_EXIT "Pas de panier sur la carte!\n"
+# define TEXT_ERROR_M_PLAYER "Plusieurs player sur la carte!\n"
+# define TEXT_ERROR_PLAYER "Pas de chat sur la carte!\n"
+# define TEXT_ERROR_COLLECTIBLE "Pas de souris sur la carte!\n"
+# define TEXT_ERROR_MAP_NAME "Fichier de la map n'est pas conforme!\n"
 
 # define IMG_GROUND "./img/sol.xpm"
 # define IMG_CAT_F "./img/Cat-front.xpm"
@@ -61,53 +62,59 @@ typedef struct image
 	void	*img;
 	int		width;
 	int		height;
-}	img_data;
+}	t_img_data;
+
+typedef struct position
+{
+	int		x;
+	int		y;
+}	t_pos;
 
 typedef struct player
 {
 	int		x;
 	int		y;
-}	p_data;
+}	t_p_data;
 
 typedef struct window
 {
-	void 	*w;
+	void	*w;
 	int		width;
 	int		height;
-}	win_data;
+}	t_win_data;
 
-typedef struct	s_param {
+typedef struct s_param {
 	void		*mlx;
-	char 		*map;
+	char		*map;
 	int			steps;
 	int			collected;
 	int			collectibles;
-	p_data		player;
-	win_data	w;
+	t_p_data	player;
+	t_win_data	w;
 }	t_param;
 
-int closeg(int keycode, t_param p);
-void free_mlx(t_param *p);
-void store_map(int fd, t_param *p, win_data	*window);
-void check_map_name(char *name);
-int move(t_param *p, int steps, char *cat, int direction);
-void print_move(t_param *p, char *cat, int direction, int steps);
-void  render_img(void *mlx, void *window, int x, int y, char *path);
-int inside_lines(unsigned long i, char *line, unsigned long w);
-int map_wall_error(char *line, int width);
-int item_error(char *line);
-void map_errors(char *line, int w_width, int w_height);
-win_data window_construction(void *mlx, char *path, t_param *p);
-void define_img(void *mlx, win_data window, int x, int y, char lettre);
-void render_text_box(void *mlx, win_data window);
-void render_map(void *mlx, win_data	window, char *map);
-int go_to_left(t_param *p);
-int go_to_right(t_param *p);
-int go_up(t_param *p);
-int go_down(t_param *p);
-void display_steps(int p_steps, void *mlx, win_data window);
-int	key_hook(int keycode, t_param *p);
-int str_find(char *str, char lettre);
-void set_player_position(t_param *p);
+int			closeg(int keycode, t_param p);
+void		free_mlx(t_param *p);
+void		store_map(int fd, t_param *p, t_win_data *window);
+void		check_map_name(char *name, void *mlx);
+int			move(t_param *p, int steps, char *cat, int direction);
+void		print_move(t_param *p, char *cat, int direction, int steps);
+void		render_img(void *mlx, void *window, t_pos *pos, char *path);
+int			inside_lines(unsigned long i, char *line, unsigned long w);
+int			map_wall_error(char *line, int width);
+int			item_error(char *line);
+void		map_errors(char *line, int w_width, int w_height);
+t_win_data	window_construction(void *mlx, char *path, t_param *p);
+void		define_img(void *mlx, t_win_data window, t_pos	*pos, char lettre);
+void		render_text_box(void *mlx, t_win_data window);
+void		render_map(void *mlx, t_win_data	window, char *map);
+int			go_to_left(t_param *p);
+int			go_to_right(t_param *p);
+int			go_up(t_param *p);
+int			go_down(t_param *p);
+void		display_steps(int p_steps, void *mlx, t_win_data window);
+int			key_hook(int keycode, t_param *p);
+int			str_find(char *str, char lettre);
+void		set_player_position(t_param *p);
 
 #endif

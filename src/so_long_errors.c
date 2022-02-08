@@ -3,52 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   so_long_errors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:07:25 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 15:44:48 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:49:15 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void check_map_name(char *name)
+void	check_map_name(char *name, void *mlx)
 {
-	char *ext;
-	int point;
+	char	*ext;
+	int		point;
 
 	point = ft_strlen(name) - 4;
 	ext = ft_strnstr(name, ".ber", ft_strlen(name));
-	if(ext == NULL || name + point != ext)
+	if (ext == NULL || name + point != ext)
 	{
 		printf(TEXT_ERROR);
 		printf(TEXT_ERROR_MAP_NAME);
+		free(mlx);
+		mlx = NULL;
 		exit(0);
 	}
 }
 
-int inside_lines(unsigned long i, char *line, unsigned long w)
+int	inside_lines(unsigned long i, char *line, unsigned long w)
 {
 	while (i < (ft_strlen(line) - 1))
 	{
 		if (line[i] != '1')
-			return(0);
+			return (0);
 		i += (w - 1);
 		if (line[i] != '1')
-			return(0);
+			return (0);
 		i++;
 		if (line[i] != '\n' && i < (ft_strlen(line) - 1))
-			return(0);
+			return (0);
 		i++;
 	}
 	i -= 2;
 	return (i);
 }
 
-int map_wall_error(char *line, int width)
+int	map_wall_error(char *line, int width)
 {
-	unsigned long i;
-	unsigned long w;
+	unsigned long	i;
+	unsigned long	w;
 
 	i = 0;
 	w = (unsigned long)width;
@@ -73,9 +75,9 @@ int map_wall_error(char *line, int width)
 	return (1);
 }
 
-int item_error(char *line)
+int	item_error(char *line)
 {
-	char *player;
+	char	*player;
 
 	player = ft_strchr(line, 'P');
 	if (ft_strchr(line, 'C') == NULL)
@@ -102,10 +104,10 @@ int item_error(char *line)
 		return (1);
 }
 
-void map_errors(char *map, int w_width, int w_height)
+void	map_errors(char *map, int w_width, int w_height)
 {
-	int width;
-	int height;
+	int	width;
+	int	height;
 
 	width = w_width / IMG_W;
 	height = w_height / IMG_H;

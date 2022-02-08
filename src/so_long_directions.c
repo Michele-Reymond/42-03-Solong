@@ -3,29 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   so_long_directions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:07:33 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/04 15:29:22 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:26:10 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void print_move(t_param *p, char *cat, int direction, int steps)
+void	print_move(t_param *p, char *cat, int direction, int steps)
 {
-	render_img(p->mlx, p->w.w, p->player.x, p->player.y, IMG_GROUND);
+	t_pos	pos;
+
+	pos.x = p->player.x;
+	pos.y = p->player.y;
+	render_img(p->mlx, p->w.w, &pos, IMG_GROUND);
 	if (steps == 1 || steps == -1)
 		p->player.x = p->player.x + direction;
-	else 
+	else
 		p->player.y = p->player.y + direction;
-	render_img(p->mlx, p->w.w, p->player.x, p->player.y, cat);
+	pos.x = p->player.x;
+	pos.y = p->player.y;
+	render_img(p->mlx, p->w.w, &pos, cat);
 }
 
-int move(t_param *p, int steps, char *cat, int direction)
+int	move(t_param *p, int steps, char *cat, int direction)
 {
-	char *p_pos;
-	char lettre_left;
+	char	*p_pos;
+	char	lettre_left;
 
 	p_pos = ft_strchr(p->map, 'P');
 	lettre_left = *(p_pos + steps);
@@ -39,7 +45,7 @@ int move(t_param *p, int steps, char *cat, int direction)
 	if (lettre_left != '1' && lettre_left != 'E')
 	{
 		if (lettre_left == 'C')
-			p->collected = p->collected + 1; 
+			p->collected = p->collected + 1;
 		*p_pos = '0';
 		*(p_pos + steps) = 'P';
 		print_move(p, cat, direction, steps);
@@ -48,10 +54,9 @@ int move(t_param *p, int steps, char *cat, int direction)
 	return (0);
 }
 
-
-void display_steps(int p_steps, void *mlx, win_data window)
+void	display_steps(int p_steps, void *mlx, t_win_data window)
 {
-	char *steps;
+	char	*steps;
 
 	printf("Nombre de pas : %d\n", p_steps);
 	render_text_box(mlx, window);
@@ -64,8 +69,8 @@ void display_steps(int p_steps, void *mlx, win_data window)
 
 int	key_hook(int keycode, t_param *p)
 {
-	int horizontal_move;
-	int vertical_move;
+	int	horizontal_move;
+	int	vertical_move;
 
 	horizontal_move = 1;
 	vertical_move = p->w.width / IMG_W + 1;
