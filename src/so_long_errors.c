@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   so_long_errors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:07:25 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/08 17:49:15 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:44:44 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	check_map_name(char *name, void *mlx)
+void	check_map_name(char *name, t_param *p)
 {
 	char	*ext;
 	int		point;
@@ -23,8 +23,10 @@ void	check_map_name(char *name, void *mlx)
 	{
 		printf(TEXT_ERROR);
 		printf(TEXT_ERROR_MAP_NAME);
-		free(mlx);
-		mlx = NULL;
+		free(p->map);
+		p->map = NULL;
+		free(p->mlx);
+		p->mlx = NULL;
 		exit(0);
 	}
 }

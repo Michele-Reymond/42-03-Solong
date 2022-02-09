@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/08 18:16:35 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:40:37 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include "./get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
-
-# define MAP_PATH "map/map.ber"
 
 # define TEXT_TITRE "So long!"
 # define TEXT_START "Manges vite les souris"
@@ -96,7 +94,7 @@ typedef struct s_param {
 int			closeg(int keycode, t_param p);
 void		free_mlx(t_param *p);
 void		store_map(int fd, t_param *p, t_win_data *window);
-void		check_map_name(char *name, void *mlx);
+void		check_map_name(char *name, t_param *p);
 int			move(t_param *p, int steps, char *cat, int direction);
 void		print_move(t_param *p, char *cat, int direction, int steps);
 void		render_img(void *mlx, void *window, t_pos *pos, char *path);

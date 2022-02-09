@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:06:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/08 18:35:52 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/09 11:38:51 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	store_map(int fd, t_param *p, t_win_data *window)
 
 	line = get_next_line(fd);
 	window->width = (ft_strlen(line) - 1) * IMG_W;
+	window->height = 0;
 	while (line != NULL)
 	{
 		tmp = line;
@@ -37,7 +38,6 @@ t_win_data	window_construction(void *mlx, char *path, t_param *p)
 	t_win_data	window;
 	int			fd;
 
-	printf("%s\n", path);
 	p->map = ft_strdup("");
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
@@ -79,10 +79,19 @@ int	str_find(char *str, char lettre)
 
 void	free_mlx(t_param *p)
 {
-	free(p->map);
-	p->map = NULL;
-	free(p->w.w);
-	p->w.w = NULL;
-	free(p->mlx);
-	p->mlx = NULL;
+	if (p->map)
+	{
+		free(p->map);
+		p->map = NULL;
+	}
+	if(p->w.w)
+	{
+		free(p->w.w);
+		p->w.w = NULL;
+	}
+	if(p->mlx)
+	{
+		free(p->mlx);
+		p->mlx = NULL;
+	}
 }

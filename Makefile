@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+         #
+#    By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 22:30:27 by mreymond          #+#    #+#              #
-#    Updated: 2022/02/08 18:15:27 by mreymond         ###   ########.fr        #
+#    Updated: 2022/02/09 11:27:27 by mreymond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ $(NAME):	$(OBJS)
 	$(CC) $(CFLAGS) -Imlx -c $< -o $@
 
 run: all
-	./$(NAME) "map/map.ber"
+	leaks -atExit -- ./$(NAME) "map.bar"
 
 clean: 
 	${RM} ${OBJS}
