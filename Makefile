@@ -6,7 +6,7 @@
 #    By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 22:30:27 by mreymond          #+#    #+#              #
-#    Updated: 2022/02/09 18:16:24 by mreymond         ###   ########.fr        #
+#    Updated: 2022/02/09 18:47:08 by mreymond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,9 @@ $(NAME):	$(OBJS)
 
 %o:	%.c
 	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+
+run: all
+	leaks -atExit -- ./$(NAME) "map.ber"
 
 clean: 
 	${RM} ${OBJS}
