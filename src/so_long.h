@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:32:48 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/09 11:40:37 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/09 18:15:41 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void		render_img(void *mlx, void *window, t_pos *pos, char *path);
 int			inside_lines(unsigned long i, char *line, unsigned long w);
 int			map_wall_error(char *line, int width);
 int			item_error(char *line);
-void		map_errors(char *line, int w_width, int w_height);
-t_win_data	window_construction(void *mlx, char *path, t_param *p);
+void		map_errors(t_param	*p, t_win_data window);
+t_win_data	window_construction(char *path, t_param *p);
 void		define_img(void *mlx, t_win_data window, t_pos	*pos, char lettre);
 void		render_text_box(void *mlx, t_win_data window);
 void		render_map(void *mlx, t_win_data	window, char *map);

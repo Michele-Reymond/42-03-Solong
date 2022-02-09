@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:50:27 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/09 11:41:25 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:54:13 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ int	main(int argc, char *argv[])
 		printf(TEXT_ARG_ERROR);
 		return (0);
 	}
+	p.w.w = NULL;
 	p.collected = 0;
 	p.steps = 0;
-	p.map = NULL;
+	p.map = ft_strdup("");
 	map_path = argv[1];
 	p.mlx = mlx_init();
 	check_map_name(map_path, &p);
-	p.w = window_construction(p.mlx, map_path, &p);
+	p.w = window_construction(map_path, &p);
 	render_map(p.mlx, p.w, p.map);
 	set_player_position(&p);
 	p.collectibles = str_find(p.map, 'C');

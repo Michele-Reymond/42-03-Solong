@@ -6,7 +6,7 @@
 #    By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 22:30:27 by mreymond          #+#    #+#              #
-#    Updated: 2022/02/09 11:27:27 by mreymond         ###   ########.fr        #
+#    Updated: 2022/02/09 18:16:24 by mreymond         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS = src/so_long.c \
 	src/so_long_directions.c \
 	src/get_next_line.c \
 	src/get_next_line_utils.c
-CFLAGS = -g -Wall -Werror -Wextra -Imlx
+CFLAGS = -Wall -Werror -Wextra -Imlx
 MLXFLAGS = -L ${LBFT_PATH} -lft -L ${MLX_PATH} -lmlx -framework OpenGL -framework AppKit
 CC = gcc
 NAME = so_long
@@ -36,9 +36,6 @@ $(NAME):	$(OBJS)
 
 %o:	%.c
 	$(CC) $(CFLAGS) -Imlx -c $< -o $@
-
-run: all
-	leaks -atExit -- ./$(NAME) "map.bar"
 
 clean: 
 	${RM} ${OBJS}

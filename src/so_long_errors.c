@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:07:25 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/09 11:44:44 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/09 18:15:07 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	check_map_name(char *name, t_param *p)
 	{
 		printf(TEXT_ERROR);
 		printf(TEXT_ERROR_MAP_NAME);
-		free(p->map);
-		p->map = NULL;
-		free(p->mlx);
-		p->mlx = NULL;
+		free_mlx(p);
 		exit(0);
 	}
 }
@@ -106,25 +103,23 @@ int	item_error(char *line)
 		return (1);
 }
 
-void	map_errors(char *map, int w_width, int w_height)
+void	map_errors(t_param	*p, t_win_data window)
 {
 	int	width;
 	int	height;
 
-	width = w_width / IMG_W;
-	height = w_height / IMG_H;
-	if (map_wall_error(map, width) == 0)
+	width = window.width / IMG_W;
+	height = window.height / IMG_H;
+	if (map_wall_error(p->map, width) == 0)
 	{
-		free(map);
-		map = NULL;
 		printf(TEXT_ERROR);
 		printf(TEXT_ERROR_MAP);
+		free_mlx(p);
 		exit(0);
 	}
-	if (item_error(map) == 0)
+	if (item_error(p->map) == 0)
 	{
-		free(map);
-		map = NULL;
+		free_mlx(p);
 		exit(0);
 	}
 }
