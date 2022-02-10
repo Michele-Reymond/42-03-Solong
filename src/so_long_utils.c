@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mreymond <mreymond@42lausanne.ch>          +#+  +:+       +#+        */
+/*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 22:06:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/02/09 18:15:27 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/02/10 14:12:24 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ void	free_mlx(t_param *p)
 		free(p->map);
 		p->map = NULL;
 	}
-	if(p->w.w)
+	if (p->w.w)
 	{
 		free(p->w.w);
 		p->w.w = NULL;
 	}
-	if(p->mlx)
+	if (p->mlx)
 	{
 		free(p->mlx);
 		p->mlx = NULL;
